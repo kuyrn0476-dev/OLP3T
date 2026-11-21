@@ -9,10 +9,10 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature
 
 app = FastAPI(title="OL.P3T")
 
-CLIENT_ID = os.environ["DISCORD_CLIENT_ID"]
-CLIENT_SECRET = os.environ["DISCORD_CLIENT_SECRET"]
-REDIRECT_URI = os.environ["DISCORD_REDIRECT_URI"]
-SESSION_SECRET = os.environ["SESSION_SECRET"]
+CLIENT_ID = os.environ["1573527625861959762"]
+CLIENT_SECRET = os.environ["-MwSf7SFHi3XvUvmRbrEFkqxuUp3bpLL"]
+REDIRECT_URI = os.environ["	https://api-orcin-pi.vercel.app/api/discord/callback"]
+SESSION_SECRET = os.environ["5428382381122527309546234471220903406239"]
 
 signer = URLSafeTimedSerializer(SESSION_SECRET)
 
