@@ -1,1 +1,83 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OL.P3T Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: #090d16;
+      color: #f4f6ff;
+      font-family: Arial, sans-serif;
+    }
+    main {
+      width: 100%;
+      max-width: 520px;
+      padding: 32px;
+      background: #141c2b;
+      border: 1px solid #29364c;
+      border-radius: 16px;
+    }
+    h1 { color: #8bafff; letter-spacing: 5px; }
+    p { color: #c4ccda; line-height: 1.6; }
+    button {
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: #557ff0;
+      color: white;
+      cursor: pointer;
+    }
+    .secondary { background: #303b4d; }
+    .actions { display: flex; gap: 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>OL.P3T</h1>
+    <p>Transparent event reporting dashboard.</p>
+    <h2>Your privacy matters</h2>
+    <p>
+      This service only records reporting events after
+      you explicitly agree. Discord sign-in is optional
+      and uses official Discord OAuth2.
+    </p>
+    <p>
+      We never request your Discord password or session token.
+      You can decline without using the reporting service.
+    </p>
+    <div class="actions">
+      <button onclick="choose(true)">I agree</button>
+      <button class="secondary" onclick="choose(false)">I decline</button>
+    </div>
+    <p id="status" role="status"></p>
+  </main>
+  <script>
+    async function choose(accepted) {
+      const status = document.getElementById("status");
+      status.textContent = "Saving your choice...";
+      try {
+        const response = await fetch("/api/consent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ accepted })
+        });
+        if (!response.ok) throw new Error();
+        status.textContent = accepted
+          ? "Your choice has been recorded."
+          : "You declined. No reporting event will be created.";
+      } catch {
+        status.textContent = "The API is not connected yet. Please try later.";
+      }
+    }
+  </script>
+</body>
+</html>
